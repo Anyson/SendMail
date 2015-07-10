@@ -1,0 +1,4 @@
+# run like $ pip install -r requirements/requirement.txt
+
+#see more:http://openpyxl.readthedocs.org/en/latest/
+openpyxl 

@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+encoding//sendmail/main.py=utf-8
+encoding//smtProcessor/smtp.py=utf-8
+encoding//xlProcessor/exceptions.py=utf-8
+encoding//xlProcessor/xprocessor.py=utf-8
+encoding//xlProcessor/xtag.py=utf-8
