@@ -87,7 +87,7 @@ class XProcessor(object):
             f.close()
             self.content_template = unicode(self.content_template, "utf-8")
         except Exception:
-            raise InvalidFileException(u"打开模板内容文件%s错误,请检查模板文件是否有错!" % templateName)
+            raise InvalidFileException(u"打开模板内容文件%s错误,请检查模板文件是否有错!(确保当前目录下存在content.txt文件)" % templateName)
         
     def makeContent(self):
         def getTable(heads, contentList):
