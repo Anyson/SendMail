@@ -6,7 +6,6 @@ Created on 2015年7月10日
 '''
 """Definitions for openpyxl shared exception classes."""
 
-
 class InvalidFileException(Exception):
     """Error for trying to open a non file."""
     

@@ -100,7 +100,7 @@ class TestSmtpServer:
         except (smtplib.SMTPException, Exception):
             return u'找不到smtp服务器，请确保互联网是否处于连接状态或SMTP服务器设置是否正确。'
         else:
-            return u'succ'
+            return u''
     def loginTest(self, userEmail, password):
         u'''连接服务器'''
         print u"开始登陆..."
@@ -111,7 +111,7 @@ class TestSmtpServer:
         except (smtplib.SMTPAuthenticationError, Exception):
             return u'连接smtp服务器失败，请确保邮箱和密码是否填写正确。'
         else:
-            return u'succ'
+            return u''
         
     def sendTestEmail(self):
         u'''发送测试邮件'''
@@ -125,7 +125,7 @@ class TestSmtpServer:
         except (smtplib.SMTPAuthenticationError, smtplib.SMTPSenderRefused, Exception):
             return u'发送测试邮件失败。'
         else:
-            return u'succ'
+            return u''
         
 if __name__ == "__main__":
     print "Start Test..."

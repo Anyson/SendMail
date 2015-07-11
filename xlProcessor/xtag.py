@@ -24,6 +24,6 @@ class XTag(object):
         for var in items:
             s = "{% " + var + " %}"
             print s
-            source_temp = re.sub(s, content.get(var, ''), source_temp)
+            source_temp = re.sub(s, content.get(var, ' '), source_temp)
             
         return source_temp

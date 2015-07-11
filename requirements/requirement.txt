@@ -2,3 +2,4 @@
 
 #see more:http://openpyxl.readthedocs.org/en/latest/
 openpyxl 
+pyinstaller

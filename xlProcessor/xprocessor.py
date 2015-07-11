@@ -9,7 +9,6 @@ import time
 from openpyxl import load_workbook
 from xlProcessor.exceptions import InvalidFileException, InvalidExcelException
 from xlProcessor.xtag import XTag
-from __builtin__ import str
 
 class SheetHelper(object):
     '''
@@ -24,7 +23,6 @@ class SheetHelper(object):
         self.usernameIndex = -1
         for index in range(0, len(self.head)):
             cell_content = unicode(self.head[index].value)
-            print cell_content
             if cell_content == u'职员姓名' or cell_content == u'姓名':
                 self.usernameIndex = index
                 break
@@ -56,8 +54,7 @@ class XProcessor(object):
 
 
     def __init__(self):
-        self.sheets = None
-        self.content_template = None
+        self.content = {}
         
     def loadWorkbook(self, filename=None):
         try:
@@ -79,9 +76,8 @@ class XProcessor(object):
                 print u"excel文件的内容为空"
                 raise InvalidExcelException(u"excel文件的内容为空")
              
-        except Exception, e:
-            print e
-            err_str = u"打开excel文件%s错误,请检查excel文件是否有错!" % filename
+        except Exception:
+            err_str = u"打开excel文件%s错误,请检查excel文件是否有错!(支持excel的文件后缀有xlsx/xlsm/xltx/xltm)" % filename
             raise InvalidFileException(err_str)
     
     def loadContentTemplate(self, templateName=None):
@@ -90,8 +86,7 @@ class XProcessor(object):
             self.content_template = f.read()
             f.close()
             self.content_template = unicode(self.content_template, "utf-8")
-        except Exception, e:
-            print "sss", e
+        except Exception:
             raise InvalidFileException(u"打开模板内容文件%s错误,请检查模板文件是否有错!" % templateName)
         
     def makeContent(self):
@@ -103,21 +98,36 @@ class XProcessor(object):
             for td in contentList[1:len(contentList)]:
                 tab += u'\t\t<td class="row">' + unicode(td.value) + u'</td>\n'
             tab += u'\t</tr>\n</table> '
-            return tab
+            return unicode(tab)
         
         current_time = time.localtime(time.time())
-        current_time = time.strftime(u'%Y-%m-%d %H:%M:%S',current_time)
+        current_time = time.strftime(u'%Y-%m-%d %H:%M:%S', current_time)
         for sheetname in self.sheets.keys():
             sheetHelper = self.sheets.get(sheetname)
+            l = []
             for row in sheetHelper.rowList:
                 email = sheetHelper.getEmail(row)
-                username = sheetHelper.getUsername(row)
+                if not email:
+                    continue
+                email = unicode(email)
+                username = unicode(sheetHelper.getUsername(row))
                 content = XTag.parse(self.content_template, { u"username" : username,
                                                               u"tablecontent" : getTable(sheetHelper.head, row),
-                                                              u"currenttime" : current_time})
+                                                              u"currenttime" : unicode(current_time)})
                 
-                print content
                 contentHelper = ContentHelper(email, username, content)
+                l.append(contentHelper)
+            self.content[sheetname] = l
+            
+        
+        
+    def start(self, filepath, contentTemplate="content.txt"):
+        try:
+            self.loadWorkbook(filepath)
+            self.loadContentTemplate(contentTemplate)
+            self.makeContent()
+        except Exception, e:
+            raise e
             
 
 if __name__ == "__main__":
