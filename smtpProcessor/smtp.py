@@ -46,7 +46,7 @@ class Smtp(object):
             else:
                 self.smtp = smtplib.SMTP(self.smtpServer, int(self.port))
             #self.smtp.connect(self.smtpServer, int(self.port))
-            self.smtp.set_debuglevel(1)
+            #self.smtp.set_debuglevel(1)
             self.smtp.login(self.userEmail, self.password)
         #触发连接错误
         except (smtplib.SMTPAuthenticationError,smtplib.SMTPException,Exception):
@@ -96,7 +96,7 @@ class TestSmtpServer:
                 self.smtp.ehlo()
             else:
                 self.smtp = smtplib.SMTP(smtpServer, int(port))
-            self.smtp.set_debuglevel(1)
+            #self.smtp.set_debuglevel(1)
         except (smtplib.SMTPException, Exception):
             return u'找不到smtp服务器，请确保互联网是否处于连接状态或SMTP服务器设置是否正确。'
         else:

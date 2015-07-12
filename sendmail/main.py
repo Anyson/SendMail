@@ -163,9 +163,9 @@ class SendEmailPanel(wx.Panel):
                 return
             username = data.get('username','')
             password = data.get('password','')
-            smtp_server_name = data.get(u'smtp_server_name','')
-            port = int(data.get(u'port',25))
-            ssl_type = int(data.get(u'ssl_type',0))
+            smtp_server_name = data.get('smtp_server_name','')
+            port = int(data.get('port',25))
+            ssl_type = int(data.get('ssl_type',0))
             data.close()
             self.send_server = Smtp(username,password,smtp_server_name,port, ssl_type)
             self.send_server.startSmtpServer()
@@ -400,7 +400,7 @@ class SetSmtpServerPanel(wx.Panel):
 #主窗口
 class MainFrame(wx.Frame):
     def __init__(self, parent=None, id=-1, title=''):
-        wx.Frame.__init__(self, parent, id, title,size = (360,344),pos = (450,200))
+        wx.Frame.__init__(self, parent, id, title,size = (360,360),pos = (450,200))
         self.SetIcon(wx.Icon(name='email.ico', type=wx.BITMAP_TYPE_ICO))
         #设置工具栏
         self.CreateStatusBar() 
@@ -463,7 +463,7 @@ class MainFrame(wx.Frame):
             self.createSetSmtpServerWindow()
         self.set_panel.Hide()
         
-        if self.createdSendEmailWindowFlag:
+        if not self.createdSendEmailWindowFlag:
             self.createSendEmailWindow()
         else:
             self.send_email_panel.Show()
