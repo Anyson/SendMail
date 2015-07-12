@@ -19,11 +19,9 @@ class XTag(object):
     def parse(source=None, content={}):
         source_temp = source
         items = re.findall(var_pattern, source_temp)
-        print items
         
         for var in items:
             s = "{% " + var + " %}"
-            print s
             source_temp = re.sub(s, content.get(var, ' '), source_temp)
             
         return source_temp

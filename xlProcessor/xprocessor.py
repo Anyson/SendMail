@@ -73,7 +73,7 @@ class XProcessor(object):
                     self.sheets[name] = sheetHelper
                     
             if len(self.sheets.keys()) <= 0:
-                print u"excel文件的内容为空"
+                #print u"excel文件的内容为空"
                 raise InvalidExcelException(u"excel文件的内容为空")
              
         except Exception:

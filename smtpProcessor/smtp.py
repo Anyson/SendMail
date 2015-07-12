@@ -84,7 +84,7 @@ class TestSmtpServer:
     u'''测试服务器模块'''
     def findSmtpServer(self, smtpServer, port=25, sslType=0):
         u'''查找服务器'''
-        print u"开始连接服务器..."
+        #print u"开始连接服务器..."
         try:
             
             if sslType == 1:
@@ -103,7 +103,7 @@ class TestSmtpServer:
             return u''
     def loginTest(self, userEmail, password):
         u'''连接服务器'''
-        print u"开始登陆..."
+        #print u"开始登陆..."
         try:
             self.smtp.login(userEmail, password)
             self.userEmail = userEmail

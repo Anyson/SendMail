@@ -8,16 +8,17 @@ import wx.lib.scrolledpanel
 from smtpProcessor.smtp import TestSmtpServer, Smtp
 from xlProcessor.xprocessor import XProcessor
 
+import sys
+sys.path.append("")
+
 #发送状态窗口
 class SendStatusPanel(wx.lib.scrolledpanel.ScrolledPanel):
     def __init__(self,parent):
-        print "aaaaaaa"
         wx.lib.scrolledpanel.ScrolledPanel.__init__(self, parent, -1)
         
         user_name = wx.StaticText(self, -1, u'姓名')
         email_address = wx.StaticText(self, -1, u'邮箱')
         status = wx.StaticText(self, -1, u'状态')
-        #print status.GetId().__class__
         #设置sizer
         self.sizer = wx.FlexGridSizer(0,3,10,10)
         self.sizer.Add(user_name,0,0)
@@ -109,8 +110,8 @@ class SendEmailPanel(wx.Panel):
         data = shelve.open(u'data')
         if not data :
             return
-        username = data.get(u'username','')
-        smtp_server_name = data.get(u'smtp_server_name','')
+        username = data.get('username','')
+        smtp_server_name = data.get('smtp_server_name','')
         data.close()
         self.your_send_eamil.Label = unicode(username)
         self.smtp_server_text.Label = unicode(smtp_server_name)
@@ -120,7 +121,6 @@ class SendEmailPanel(wx.Panel):
         if self.is_show_status:
             return
         self.is_show_status = True
-        print "bbbbbbb"
         self.excel_file_path = unicode(self.choose_excel_path.GetValue())
         self.status_frame = ''
         if not self.excel_file_path:
@@ -158,12 +158,11 @@ class SendEmailPanel(wx.Panel):
     #开始发送邮件
     def startSendSalaryEmail(self):    
         try:
-            #print self.emailsAndContents.to_emailList
             data = shelve.open(u'data')
             if not data :
                 return
-            username = data.get(u'username','')
-            password = data.get(u'password','')
+            username = data.get('username','')
+            password = data.get('password','')
             smtp_server_name = data.get(u'smtp_server_name','')
             port = int(data.get(u'port',25))
             ssl_type = int(data.get(u'ssl_type',0))
@@ -190,7 +189,6 @@ class SendEmailPanel(wx.Panel):
                     #查看网络是否断开
                     test = TestSmtpServer()
                     if thread.start_new_thread(test.findSmtpServer,(smtp_server_name, port, ssl_type)):
-                        #print test.find_smtp_server(smtp_server_name, port)
                         notice = wx.MessageDialog(self,u'互联网连接断开，请重新连接后,单击“是”以确定继续发送邮件，否则单击“否”则停止发送。',caption=u'警告',
                                     style=wx.YES_NO|wx.ICON_INFORMATION,
                                     pos=wx.DefaultPosition)
@@ -209,7 +207,6 @@ class SendEmailPanel(wx.Panel):
                             self.send_status_frame.FindWindowById(i).Label = u'发送成功'
                             i +=1
                             continue
-                            print notice.ShowModal
                         else :
                             sended_error_email.append((cl.email, cl.username))
                             self.send_status_frame.FindWindowById(i).SetBackgroundColour(u"blue")
@@ -235,7 +232,6 @@ class SendEmailPanel(wx.Panel):
                     i +=1
             self.send_server.startSmtpServer()
         except Exception, e:
-            print e
             notice = wx.MessageDialog(self,u'请确保互联网是否连接。若已连接请确保邮箱和密码正确。你可以尝试重新设置发送服务器以解决该问题。',caption=u'登录服务器失败',
                                     style=wx.OK|wx.ICON_INFORMATION,
                                     pos=wx.DefaultPosition)
@@ -317,11 +313,11 @@ class SetSmtpServerPanel(wx.Panel):
         data = shelve.open(u'data')
         if not data :
             return
-        username = data.get(u'username','')
-        password = data.get(u'password','')
-        smtp_server_name = data.get(u'smtp_server_name','')
-        port = int(data.get(u'port',25))
-        ssl_type = int(data.get(u'ssl_type', 0))
+        username = data.get('username','')
+        password = data.get('password','')
+        smtp_server_name = data.get('smtp_server_name','')
+        port = int(data.get('port',25))
+        ssl_type = int(data.get('ssl_type', 0))
         if ssl_type == 2:
             self.tls_text.SetValue(True)
         elif ssl_type == 1:
